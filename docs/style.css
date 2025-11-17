@@ -34,18 +34,38 @@ ul { list-style: none; padding: 0; margin: 0; }
 .home-icon { background-color: #b32d2d; padding: 0 15px !important; font-size: 16px; }
 
 .banner {
-    background: linear-gradient(to right, #d92525, #ffcc00); 
+    background:  #ff1d1d; 
     height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-    margin-bottom: 10px;
+    display: flex;            /* Biến thành Hộp Linh Hoạt (xếp hàng ngang) */
+    justify-content: center;  /* Căn giữa theo chiều ngang (Gom 2 con vào giữa) */
+    align-items: center;      /* Căn giữa theo chiều dọc */
+    gap: 30px;
 }
-.banner h1 { margin: 0; text-transform: uppercase; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); font-size: 2.5em;}
-.banner p { margin: 5px 0 0; font-style: italic; opacity: 0.9; }
+
+
+.banner-overlay {    
+    color: white;
+    padding: 0 20px; /* Thêm padding cho đẹp */
+    
+}
+.banner-overlay h1 { 
+    margin: 0; 
+    text-transform: uppercase; 
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); 
+    font-size: 2.5em;
+}
+.banner-overlay p { margin: 5px 0 0; font-style: italic; opacity: 0.9; }
+
+.school-logo {
+    height: 100px; /* Chiều cao tùy ý */
+}
+
+/* Nếu anh để trong sidebar */
+.school-logo-sidebar {
+    width: 40px; /* Chiều rộng tùy ý */
+    display: block;
+    margin: 0 auto 10px auto; /* Căn giữa và có khoảng cách dưới */
+}
 
 .quick-links {
     display: grid;
