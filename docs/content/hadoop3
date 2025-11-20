@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Tay Cài Đặt Hadoop 3.3.6 (Single Node)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; padding: 20px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        hr { border: 0; border-top: 1px solid #ecf0f1; margin: 20px 0; }
+        p { margin-bottom: 15px; }
+        /* Style cho bảng lệnh (giống trang tính) */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        th, td { border: 1px solid #bdc3c7; padding: 8px; text-align: left; word-wrap: break-word; font-size: 14px; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .command-group { background-color: #2980b9 !important; color: white !important; font-weight: bold; text-align: center; }
+        /* Style cho khối Tech Stack */
+        .tech-stack { padding: 15px; background-color: #ecf0f1; border-radius: 8px; margin-top: 20px; }
+        .tech-icons { display: flex; gap: 20px; flex-wrap: wrap; margin-top: 10px; }
+        .tech-icon { text-align: center; font-size: 14px; }
+        .tech-icon i { font-size: 24px; color: #2c3e50; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+<h1>Sổ Tay Lệnh Cài Đặt Hadoop 3.3.6 (Single Node)</h1>
+<p>Chào mừng đến với bảng tổng hợp các lệnh cần thiết để triển khai hệ thống **Hadoop 3.3.6** trên môi trường **Ubuntu/WSL2**. Đây là phiên bản tối giản nhất, được thiết kế để anh dễ dàng in ra hoặc theo dõi trên một trang.</p>
+
+<div class="tech-stack">
+    <h2>Công Nghệ Sử Dụng</h2>
+    <p>Quá trình này đòi hỏi sự phối hợp của các công nghệ nền tảng sau:</p>
+    <div class="tech-icons">
+        <div class="tech-icon">
+            <i class="fab fa-linux"></i>
+            <span>WSL2 / Linux (Ubuntu)</span>
+        </div>
+        <div class="tech-icon">
+            <i class="fab fa-java"></i>
+            <span>OpenJDK 8 (Java)</span>
+        </div>
+        <div class="tech-icon">
+            <i class="fas fa-cubes"></i>
+            <span>HDFS & YARN (Hadoop Core)</span>
+        </div>
+        <div class="tech-icon">
+            <i class="fas fa-lock"></i>
+            <span>SSH (Không Mật Khẩu)</span>
+        </div>
+    </div>
+</div>
+
+<hr>
+
+<h2>Bảng Tổng Hợp Lệnh Theo Trình Tự</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>Lệnh</th>
+            <th>Mô Tả/Mục Đích</th>
+            <th>Ghi Chú</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="command-group">
+            <td colspan="4">I. Chuẩn Bị Cơ Sở (Java & SSH)</td>
+        </tr>
+        <tr>
+            <td>1.</td>
+            <td><code>wsl --install</code></td>
+            <td>Cài đặt WSL2 và Ubuntu. (Chạy trong PowerShell/CMD)</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>2.</td>
+            <td><code>sudo apt update</code></td>
+            <td>Cập nhật danh sách gói.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>3.</td>
+            <td><code>sudo apt install openjdk-8-jdk -y</code></td>
+            <td>Cài đặt Java 8 JDK (cần thiết cho Hadoop).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>4.</td>
+            <td><code>sudo apt install ssh -y</code></td>
+            <td>Cài đặt SSH server.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>5.</td>
+            <td><code>ssh-keygen -t rsa -P ""</code></td>
+            <td>Tạo cặp khóa SSH không mật khẩu (Enter liên tục).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>6.</td>
+            <td><code>cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys</code></td>
+            <td>Ủy quyền cho Passwordless SSH.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>7.</td>
+            <td><code>ssh -o StrictHostKeyChecking=no localhost</code></td>
+            <td>Kiểm tra kết nối SSH (Đăng nhập không hỏi pass).</td>
+            <td>Nhập <code>yes</code> nếu cần, sau đó <code>exit</code>.</td>
+        </tr>
+        <tr class="command-group">
+            <td colspan="4">II. Cài đặt và Thiết lập Đường dẫn</td>
+        </tr>
+        <tr>
+            <td>8.</td>
+            <td><code>cd ~</code></td>
+            <td>Chuyển về Home Directory để tải file (Tránh lỗi `utime`).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>9.</td>
+            <td><code>wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.6/hadoop-3.3.6.tar.gz</code></td>
+            <td>Tải Hadoop 3.3.6.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>10.</td>
+            <td><code>tar -xzvf hadoop-3.3.6.tar.gz</code></td>
+            <td>Giải nén file.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>11.</td>
+            <td><code>sudo mv hadoop-3.3.6 /usr/local/hadoop</code></td>
+            <td>Di chuyển và đổi tên thư mục.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>12.</td>
+            <td><code>sudo chown -R $USER:$USER /usr/local/hadoop</code></td>
+            <td>Cấp quyền sở hữu cho tài khoản hiện tại.</td>
+            <td>Thay <code>$USER</code> bằng tên tài khoản (`tvqh_computer`).</td>
+        </tr>
+        <tr>
+            <td>13.</td>
+            <td><code>mkdir -p /usr/local/hadoop/data/namenode</code></td>
+            <td>Tạo thư mục lưu trữ metadata HDFS.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>14.</td>
+            <td><code>mkdir -p /usr/local/hadoop/data/datanode</code></td>
+            <td>Tạo thư mục lưu trữ dữ liệu HDFS.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>15.</td>
+            <td><code>nano ~/.bashrc</code></td>
+            <td>Thêm biến môi trường (sau đó chạy <code>source ~/.bashrc</code>).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="command-group">
+            <td colspan="4">III. Cấu hình XML</td>
+        </tr>
+        <tr>
+            <td>16.</td>
+            <td><code>cd /usr/local/hadoop/etc/hadoop</code></td>
+            <td>Chuyển đến thư mục cấu hình.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>17.</td>
+            <td><code>nano hadoop-env.sh</code></td>
+            <td>Sửa <code>export JAVA_HOME</code> (Bỏ dấu `#`).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>18.</td>
+            <td><code>nano core-site.xml</code></td>
+            <td>Cấu hình NameNode (<code>hdfs://localhost:9000</code>).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>19.</td>
+            <td><code>nano hdfs-site.xml</code></td>
+            <td>Cấu hình đường dẫn NameNode/DataNode và <code>dfs.replication=1</code>.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>20.</td>
+            <td><code>cp mapred-site.xml.template mapred-site.xml</code></td>
+            <td>Tạo file cấu hình MapReduce (Chỉ chạy khi file đích chưa tồn tại).</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>21.</td>
+            <td><code>nano mapred-site.xml</code></td>
+            <td>Cấu hình <code>mapreduce.framework.name=yarn</code>.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>22.</td>
+            <td><code>nano yarn-site.xml</code></td>
+            <td>Cấu hình <code>yarn.nodemanager.aux-services</code>.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr class="command-group">
+            <td colspan="4">IV. Khởi động</td>
+        </tr>
+        <tr>
+            <td>23.</td>
+            <td><code>hdfs namenode -format</code></td>
+            <td>**ĐỊNH DẠNG NAMENODE (CHỈ 1 LẦN!)**.</td>
+            <td>Nhập Y/Yes khi được hỏi.</td>
+        </tr>
+        <tr>
+            <td>24.</td>
+            <td><code>start-all.sh</code></td>
+            <td>Khởi động tất cả các dịch vụ HDFS và YARN.</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>25.</td>
+            <td><code>jps</code></td>
+            <td>Kiểm tra tiến trình (Phải thấy 5 tiến trình: NN, DN, SNN, RM, NM).</td>
+            <td>&nbsp;</td>
+        </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
