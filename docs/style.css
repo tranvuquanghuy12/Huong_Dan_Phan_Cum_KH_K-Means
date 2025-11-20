@@ -218,64 +218,67 @@ ul { list-style: none; padding: 0; margin: 0; }
     .post-content h1 { margin: -15px -15px 15px -15px; }
 }
 
-/* --- BỔ SUNG CHO DROPDOWN MENU --- */
+/* --- BỔ SUNG CHO DROPDOWN TRÊN TOP-NAV --- */
 
-/* 1. Đảm bảo tile là điểm neo tương đối */
-.tile {
-    position: relative; 
-    overflow: visible; /* Quan trọng: Cho phép dropdown hiển thị bên ngoài tile */
+/* 1. Định vị container của dropdown trên thanh nav */
+.top-nav .nav-dropdown {
+    position: relative;
+    /* Kế thừa chiều cao và căn giữa từ top-nav */
+    height: 40px;
+    line-height: 40px;
 }
 
-/* 2. Định nghĩa và ẩn dropdown mặc định */
-.dropdown-menu {
+/* 2. Style cho link chính trong dropdown (ví dụ: TELEDRIVE, HADOOP3) */
+.top-nav .nav-dropdown .nav-link {
+    display: block; /* Đảm bảo link chiếm hết không gian */
+    padding: 0 10px;
+}
+
+/* 3. Định nghĩa và ẩn menu thả xuống */
+.dropdown-menu-nav {
     display: none; /* Mặc định ẩn */
     position: absolute;
-    background-color: #ffffff;
-    min-width: 200px; /* Điều chỉnh chiều rộng cho dễ nhìn */
-    box-shadow: 0px 4px 12px rgba(0,0,0,0.3);
-    z-index: 10; /* Đảm bảo hiển thị trên các phần tử khác */
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    top: 100%; /* Đặt ngay dưới tile */
+    top: 40px; /* Đặt ngay dưới thanh nav */
     left: 0;
-    border-radius: 4px;
-    margin-top: 5px; /* Khoảng cách nhỏ với tile */
-    border: 1px solid #ccc;
+    z-index: 20; /* Đảm bảo nổi lên trên mọi thứ */
+    background-color: #2b4c80; /* Màu nền nav */
+    min-width: 180px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    border: 1px solid #1a3560;
+    border-top: none;
+    line-height: normal; /* Đảm bảo text không bị co lại */
+    padding: 5px 0;
+}
+
+/* 4. Style cho các mục con trong menu */
+.dropdown-menu-nav a {
+    display: block;
+    padding: 8px 15px;
+    color: white;
+    font-weight: normal;
+    font-size: 13px;
     text-align: left;
 }
 
-/* 3. Style cho các mục trong dropdown */
-.dropdown-menu li {
-    padding: 10px 15px;
-    display: block;
-    color: #333;
-    font-size: 13px;
-    transition: background-color 0.2s ease;
-    white-space: nowrap;
-    border-bottom: 1px solid #eee;
+.dropdown-menu-nav a:hover {
+    background-color: #4a6ea5; /* Màu hover giống nav chính */
 }
 
-.dropdown-menu li:last-child {
-    border-bottom: none;
-}
-
-.dropdown-menu li:hover {
-    background-color: #f0f0f0;
-    color: #2b4c80; /* Màu nhấn */
-}
-
-/* 4. Class JS dùng để hiển thị/ẩn dropdown */
-.tile.active-dropdown .dropdown-menu {
+/* 5. Logic Hiển thị (CSS Hover) */
+.nav-dropdown:hover .dropdown-menu-nav {
     display: block;
 }
 
-/* 5. Điều chỉnh responsive để dropdown không bị tràn ra ngoài màn hình quá nhiều */
+/* Logic Hiển thị (JS Active Class - Dùng khi cần click để mở) */
+.nav-dropdown.active-nav-dropdown .dropdown-menu-nav {
+    display: block;
+}
+
+/* 6. Fix lỗi căn chỉnh Quick Links trên Mobile khi top-nav có dropdown */
 @media (max-width: 768px) {
-    /* Trong chế độ mobile, căn dropdown vào giữa hoặc sang phải để không bị cắt */
-    .dropdown-menu {
-        left: 50%;
-        transform: translateX(-50%);
-        min-width: 100%; /* Có thể mở rộng bằng chiều rộng tile */
+    .top-nav .container {
+        /* Bổ sung cuộn ngang để xử lý nội dung thừa */
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }

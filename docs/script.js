@@ -2,33 +2,41 @@
 const TELEDRIVE_API = 'http://127.0.0.1:8080';
 
 /* ===============================
-      HÀM HỖ TRỢ
+      HÀM HỖ TRỢ (GIỮ NGUYÊN)
 ================================*/
 async function safeJSON(response) {
-    const text = await response.text();
-    try {
-        return text ? JSON.parse(text) : {};
-    } catch { return {}; }
+ const text = await response.text();
+ try {
+ return text ? JSON.parse(text) : {};
+ } catch { return {}; }
 }
 function getCleanText(el) {
-    return el ? el.textContent.trim() : "";
+ return el ? el.textContent.trim() : "";
 }
 
 /* ===============================
-      HÀM LOAD CONTENT
+      HÀM LOAD CONTENT (GIỮ NGUYÊN)
 ================================*/
 window.loadContent = async function(id, title) {
-    // --- Breadcrumb & Menu ---
+    if (id === 'upload_page' && !title) {
+        title = "Tải File Lên (API)";
+    }
+    
     if (!title) {
         const item = document.querySelector(`li[data-target="${id}"]`);
         title = getCleanText(item) || "Thông tin";
-        if (item) {
-            document.querySelectorAll('#guide-menu li').forEach(i => i.classList.remove('active'));
-            item.classList.add('active');
-        }
     }
+    
     const bc = document.getElementById('breadcrumb-current');
     if (bc) bc.innerText = title;
+
+    if (id && id !== 'upload_page') {
+        const primaryTarget = document.querySelector(`li[data-target="${id}"]`);
+        if (primaryTarget) {
+             document.querySelectorAll('#guide-menu li').forEach(i => i.classList.remove('active'));
+             primaryTarget.classList.add('active');
+        }
+    }
 
     const contentDisplay = document.getElementById('content-display');
     contentDisplay.innerHTML = `<div class="loader"></div>`;
@@ -36,9 +44,6 @@ window.loadContent = async function(id, title) {
     await new Promise(r => setTimeout(r, 200));
 
     try {
-        /* ===============================
-              TRANG UPLOAD FILE (MỚI)
-        ================================= */
         if (id === 'upload_page') {
             contentDisplay.innerHTML = `
                 <div class="post-content" style="max-width: 600px; margin: 0 auto;">
@@ -62,23 +67,25 @@ window.loadContent = async function(id, title) {
             return;
         }
 
-        /* ===============================
-              CÁC TRANG CÒN LẠI (TĨNH)
-        ================================= */
-        // Các trang 'overview', 'login' (giờ là tĩnh), 'about' v.v. sẽ được load từ đây
         const response = await fetch(`content/${id}.html`);
-        if (!response.ok) throw new Error(`File 'content/${id}.html' not found`);
+        
+        if (!response.ok) throw new Error(`File 'content/${id}.html' không được tìm thấy. Vui lòng kiểm tra tên file: content/${id}.html`);
+        
         const html = await response.text();
         contentDisplay.innerHTML = `<div class="post-content">${html}</div>`;
 
     } catch (error) {
-        contentDisplay.innerHTML = `<div style="padding:20px; color:red;">Lỗi: ${error.message}</div>`;
+        contentDisplay.innerHTML = `<div style="padding:20px; color:red;">
+            <h2>❌ Lỗi Tải Nội Dung</h2>
+            <p><strong>Lý do:</strong> ${error.message}</p>
+            <p>Vui lòng đảm bảo các file HTML nằm trong thư mục <code>content/</code> và tên file (ví dụ: <code>deploy.html</code>) khớp với tham số truyền vào (<code>'deploy'</code>).</p>
+        </div>`;
         console.error(error);
     }
 };
 
 /* ===============================
-      HÀM UPLOAD FILE (THẬT)
+      HÀM UPLOAD FILE (GIỮ NGUYÊN)
 ================================= */
 window.handleUpload = async function(form) {
     const fileInput = document.getElementById('file-upload-input');
@@ -93,11 +100,10 @@ window.handleUpload = async function(form) {
     statusDiv.innerHTML = 'Đang tải lên... <i class="fas fa-spinner fa-spin"></i>';
 
     try {
-        // Gọi API thật (/api/upload)
         const response = await fetch(`${TELEDRIVE_API}/api/upload`, {
             method: 'POST',
             body: formData,
-            credentials: 'include' // Quan trọng để xử lý CORS nếu có
+            credentials: 'include'
         });
 
         const result = await safeJSON(response);
@@ -114,9 +120,68 @@ window.handleUpload = async function(form) {
 };
 
 /* ===============================
-             KHỞI TẠO
+      LOGIC DROPDOWN & KHỞI TẠO (ĐÃ SỬA)
 ================================*/
+
+// Hàm xử lý việc hiển thị/ẩn dropdown (Cho Top Nav)
+function toggleNavDropdown(event) {
+    const clickedLink = event.target.closest('.nav-link');
+    if (!clickedLink) return;
+
+    // Ngăn sự kiện click link chính load trang
+    event.preventDefault(); 
+    
+    const dropdownContainer = clickedLink.closest('.nav-dropdown');
+
+    // 1. Đóng tất cả dropdown khác
+    const allNavDropdowns = document.querySelectorAll('.nav-dropdown');
+    allNavDropdowns.forEach(container => {
+        if (container !== dropdownContainer && container.classList.contains('active-nav-dropdown')) {
+            container.classList.remove('active-nav-dropdown');
+        }
+    });
+
+    // 2. Toggle trạng thái hiện tại
+    if (dropdownContainer) {
+        dropdownContainer.classList.toggle('active-nav-dropdown');
+    }
+    
+    // Ngăn sự kiện click truyền lên body để đóng ngay lập tức
+    event.stopPropagation();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+    // 1. Gắn sự kiện click cho các dropdown trên Nav
+    const navContainer = document.querySelector('.top-nav .container');
+    if (navContainer) {
+        navContainer.addEventListener('click', toggleNavDropdown);
+    }
+
+    // 2. Đóng dropdown khi click vào mục con (và load nội dung)
+    const allNavDropdownMenus = document.querySelectorAll('.dropdown-menu-nav');
+    allNavDropdownMenus.forEach(menu => {
+        menu.addEventListener('click', (event) => {
+            const clickedMenuItem = event.target.closest('a');
+            if (clickedMenuItem) {
+                // Đóng menu sau khi click vào mục con
+                clickedMenuItem.closest('.nav-dropdown').classList.remove('active-nav-dropdown');
+                
+                // Load content
+                const onclickAttr = clickedMenuItem.getAttribute('onclick');
+                if (onclickAttr) {
+                    // Trích xuất hàm loadContent(id) và thực thi
+                    // Ví dụ: onclick="loadContent('deploy')"
+                    const idMatch = onclickAttr.match(/loadContent\(['"](.*?)['"]\)/);
+                    if (idMatch && idMatch[1]) {
+                        const title = getCleanText(clickedMenuItem);
+                        loadContent(idMatch[1], title);
+                    }
+                }
+            }
+        });
+    });
+
+    // 3. Logic cho Sidebar menu (giữ nguyên)
     const guideMenu = document.getElementById('guide-menu');
     if (guideMenu) {
         guideMenu.addEventListener('click', (event) => {
@@ -128,50 +193,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
+    
+    // 4. Đóng dropdown khi click ra ngoài body
+    document.body.addEventListener('click', function(event) {
+        if (!event.target.closest('.nav-dropdown')) {
+            const activeDropdowns = document.querySelectorAll('.nav-dropdown.active-nav-dropdown');
+            activeDropdowns.forEach(container => {
+                container.classList.remove('active-nav-dropdown');
+            });
+        }
+    });
+
+    // 5. Khởi tạo trang mặc định
     loadContent('overview', 'Giới Thiệu Chung');
 
     window.triggerMenu = function(id) {
         loadContent(id);
     };
 });
-
-// Hàm xử lý việc hiển thị/ẩn dropdown
-function toggleDropdown(clickedTile) {
-    // 1. Lấy ID của dropdown cần thao tác
-    const dropdownId = clickedTile.getAttribute('data-dropdown-id');
-    if (!dropdownId) {
-        // Nếu không có dropdown ID, chỉ load content và kết thúc
-        return; 
-    }
-
-    const dropdownMenu = document.getElementById(dropdownId);
-    
-    // 2. Đóng tất cả các dropdown khác
-    const allTiles = document.querySelectorAll('.tile');
-    allTiles.forEach(tile => {
-        if (tile !== clickedTile && tile.classList.contains('active-dropdown')) {
-            tile.classList.remove('active-dropdown');
-        }
-    });
-
-    // 3. Toggle (chuyển đổi trạng thái) dropdown hiện tại
-    clickedTile.classList.toggle('active-dropdown');
-
-    // Ngăn sự kiện click từ tile truyền lên các phần tử khác nếu cần
-    event.stopPropagation();
-}
-
-// Thêm sự kiện lắng nghe toàn bộ body để đóng dropdown khi click ra ngoài
-document.body.addEventListener('click', function(event) {
-    const isClickInsideTile = event.target.closest('.tile');
-    if (!isClickInsideTile) {
-        // Nếu click ra ngoài, đóng tất cả dropdown
-        const activeTiles = document.querySelectorAll('.tile.active-dropdown');
-        activeTiles.forEach(tile => {
-            tile.classList.remove('active-dropdown');
-        });
-    }
-});
-
-// Lưu ý: Đảm bảo rằng hàm loadContent() của anh vẫn hoạt động bên trong các li.
-// Ví dụ: <li onclick="loadContent('overview-gioithieu')">...</li>

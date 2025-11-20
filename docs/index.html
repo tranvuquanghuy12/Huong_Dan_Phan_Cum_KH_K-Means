@@ -10,13 +10,28 @@
 <body>
     <nav class="top-nav">
         <div class="container">
-            <a href="#" class="home-icon"><i class="fas fa-home"></i></a>
-            <a href="#" onclick="loadContent('overview')">GIỚI THIỆU</a>
-            <a href="#" onclick="loadContent('deploy')">TRIỂN KHAI</a>
-            <a href="#" onclick="loadContent('operate')">VẬN HÀNH</a>
-            <a href="#" onclick="loadContent('troubleshooting')">XỬ LÝ LỖI</a>
-            <a href="#" onclick="loadContent('hadoop3')">HADOOP3</a>            
-            <a href="#" onclick="loadContent('about')">LIÊN HỆ</a>
+            <a href="index.html" class="home-icon"><i class="fas fa-home"></i></a>
+            
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link">TELEDRIVE</a>
+                <div class="dropdown-menu-nav">
+                    <a onclick="loadContent('deploy')">Deploy</a>
+                    <a onclick="loadContent('operate')">Vận hành</a>
+                    <a onclick="loadContent('troubleshooting')">Xử lý lỗi</a>
+                </div>
+            </div>
+
+            <div class="nav-dropdown">
+                <a href="#" class="nav-link">HADOOP3</a>
+                <div class="dropdown-menu-nav">
+                    <a onclick="loadContent('hadoop3')">Hadoop 3.0</a>
+                    <a onclick="loadContent('troubleshooting')">Xử lý lỗi</a>
+                </div>
+            </div>
+
+            <a href="https://github.com/[YOUR_USERNAME]" target="_blank">GITHUB</a>
+            
+            <a onclick="loadContent('about')">VỀ CHÚNG TÔI</a>
         </div>
     </nav>
 
@@ -30,55 +45,38 @@
 
     <div class="container">
         <div class="quick-links">
-            <div class="tile tile-green" data-dropdown-id="overview-menu" onclick="toggleDropdown(this)">
+            <div class="tile tile-green" onclick="loadContent('overview')">
                 <img src="./images/TLU.webp" alt="Logo Đại học Thủy Lợi" class="school-logo-sidebar">
                 <span>Tổng Quan</span>
-                <ul id="overview-menu" class="dropdown-menu">
-                    <li onclick="loadContent('overview-gioithieu')">Giới thiệu chung</li>
-                    <li onclick="loadContent('overview-tinhnang')">Tính năng cốt lõi</li>
-                    <li onclick="loadContent('overview-nguyenly')">Nguyên lý hoạt động</li>
-                </ul>
             </div>
             
-            <div class="tile tile-teal" data-dropdown-id="deploy-menu" onclick="toggleDropdown(this)">
+            <div class="tile tile-teal" onclick="loadContent('deploy')">
                 <i class="fas fa-laptop-code"></i>
                 <span>Deploy Code</span>
-                <ul id="deploy-menu" class="dropdown-menu">
-                    <li onclick="loadContent('deploy-docker')">Cài đặt Docker</li>
-                    <li onclick="loadContent('deploy-telegram-keys')">Lấy Keys API</li>
-                    <li onclick="loadContent('deploy-backend')">Cấu hình Backend</li>
-                </ul>
             </div>
             
-            <div class="tile tile-purple" data-dropdown-id="operate-menu" onclick="toggleDropdown(this)">
+            <div class="tile tile-purple" onclick="loadContent('operate')">
                 <i class="fas fa-brain"></i>
                 <span>Vận Hành</span>
-                <ul id="operate-menu" class="dropdown-menu">
-                    <li onclick="loadContent('operate-start')">Khởi động hệ thống</li>
-                    <li onclick="loadContent('operate-stop')">Dừng/Tắt hệ thống</li>
-                </ul>
             </div>
             
-            <div class="tile tile-red" data-dropdown-id="troubleshooting-menu" onclick="toggleDropdown(this)">
-                <i class="fas fa-chess-knight"></i>
-                <span>Gỡ Lỗi</span>
-                <ul id="troubleshooting-menu" class="dropdown-menu">
-                    <li onclick="loadContent('troubleshooting-keys')">Lỗi API Keys</li>
-                    <li onclick="loadContent('troubleshooting-docker')">Lỗi Docker</li>
-                </ul>
-            </div>
+            
             
             <div class="tile tile-blue" onclick="loadContent('hadoop3')">
                 <i class="fab fa-windows"></i>
                 <span>Hadoop 3.0</span>
             </div>
-            <div class="tile tile-dark" onclick="loadContent('upload_page')">
-                <i class="fab fa-telegram"></i>
-                <span>Upload lên Telegram</span>
+            
+            <div class="tile tile-dark" onclick="loadContent('about')">
+                <i class="fas fa-users"></i>
+                <span>Về Chúng Tôi</span>
+            </div>
+            <div class="tile tile-red" onclick="loadContent('upload_page')">
+                <i class="fas fa-chess-knight"></i>
+                <span>Gửi lên TeleDrive</span>
             </div>
         </div>
-        </div>
-
+        
         <div class="main-layout">
             <main class="content-column">
                 <div class="breadcrumbs">
@@ -88,7 +86,6 @@
                 </div>
 
                 <div id="content-display" class="post-content">
-                    <!-- Loading Spinner -->
                     <div class="loader"></div>
                 </div>
             </main>
@@ -103,14 +100,13 @@
                     <h3 class="widget-title">CHỦ ĐỀ</h3>
                     <ul id="guide-menu" class="widget-list">
                         <li data-target="overview" class="active">Giới Thiệu Chung</li>
-                        <li data-target="operate">Vận hành</li>
                         <li data-target="deploy">Deploy</li>
+                        <li data-target="operate">Vận hành</li>
                         <li data-target="troubleshooting">Các Lỗi Thường Gặp</li>
                         <li data-target="hadoop3">HADOOP3</li>
-                        <li data-target="upload_page">
-                            <i class="fas fa-upload"></i> Tải File Lên (API)
+                        <li data-target="about">
+                             <i class="fas fa-users"></i> Về Chúng Tôi
                         </li>
-            
                     </ul>
                     <div id="no-result" style="display:none; padding:10px; color:red;">Không tìm thấy</div>
                 </div>
