@@ -1,5 +1,5 @@
 <h1>🛠️ Xử Lý Sự Cố Thường Gặp Khi Cài Đặt Hadoop 3.3.6</h1>
-<p>Dưới đây là tổng hợp các vấn đề anh có thể gặp phải (và đã gặp phải!) khi triển khai Hadoop 3.3.6 ở chế độ giả lập phân tán (Pseudo-Distributed Mode) trên Ubuntu/WSL2 và cách khắc phục chúng.</p>
+<p>Dưới đây là tổng hợp các vấn đề bạn có thể gặp phải (và đã gặp phải!) khi triển khai Hadoop 3.3.6 ở chế độ giả lập phân tán (Pseudo-Distributed Mode) trên Ubuntu/WSL2 và cách khắc phục chúng.</p>
 
 <hr>
 
@@ -93,11 +93,11 @@ mkdir -p /usr/local/hadoop/data/datanode</code></pre>
 <h3>Cách khắc phục:</h3>
 <ol>
     <li>**Cài đặt và Khởi động lại dịch vụ SSH:**</li>
-    <p>Trong Ubuntu/Linux, anh chạy các lệnh sau để đảm bảo dịch vụ SSH được cài đặt và hoạt động:</p>
+    <p>Trong Ubuntu/Linux, bạn chạy các lệnh sau để đảm bảo dịch vụ SSH được cài đặt và hoạt động:</p>
     <pre><code>sudo apt-get install openssh-client openssh-server
 sudo service ssh restart
 sudo service sshd restart</code></pre>
-    <li>**Kiểm tra lại Passwordless SSH:** Sau khi khởi động lại, anh nên chạy lại lệnh kiểm tra <code>ssh localhost</code>.</li>
+    <li>**Kiểm tra lại Passwordless SSH:** Sau khi khởi động lại, bạn nên chạy lại lệnh kiểm tra <code>ssh localhost</code>.</li>
 </ol>
 
 <hr>
@@ -110,7 +110,7 @@ sudo service sshd restart</code></pre>
 </ul>
 <h3>Cách khắc phục:</h3>
 <ol>
-    <li>**Kiểm tra phiên bản đang dùng:** Chạy <code>java -version</code>. Nếu nó không phải là Java 8, anh cần đổi phiên bản.</li>
+    <li>**Kiểm tra phiên bản đang dùng:** Chạy <code>java -version</code>. Nếu nó không phải là Java 8, bạn cần đổi phiên bản.</li>
     <li>**Đảm bảo `JAVA_HOME` đúng:** Kiểm tra và đảm bảo <code>export JAVA_HOME</code> trong <code>.bashrc</code> và <code>hadoop-env.sh</code> đều trỏ chính xác đến thư mục của **Java 8**.</li>
 </ol>
 
@@ -119,7 +119,7 @@ sudo service sshd restart</code></pre>
 <h2>8. Lỗi Đường Dẫn Cấu Hình Không Đồng Nhất (Path Mismatch)</h2>
 <h3>Nguyên nhân:</h3>
 <ul>
-    <li>Anh làm theo các hướng dẫn khác nhau sử dụng các đường dẫn khác nhau (ví dụ: <code>$HADOOP_HOME=/usr/local/hadoop</code> hoặc <code>$HADOOP_HOME=/home/hadoop/hadoop-3.3.0</code>).</li>
+    <li>Bạn làm theo các hướng dẫn khác nhau sử dụng các đường dẫn khác nhau (ví dụ: <code>$HADOOP_HOME=/usr/local/hadoop</code> hoặc <code>$HADOOP_HOME=/home/hadoop/hadoop-3.3.0</code>).</li>
     <li>Đường dẫn trong <code>.bashrc</code> không đồng bộ với đường dẫn được khai báo trong các file cấu hình XML.</li>
 </ul>
 <h3>Cách khắc phục:</h3>
@@ -153,8 +153,8 @@ $HADOOP_HOME/sbin/start-all.sh</code></pre>
 </ul>
 <h3>Cách khắc phục:</h3>
 <ol>
-    <li>**Cấp quyền sở hữu:** Đảm bảo thư mục cài đặt thuộc về anh: <code>sudo chown -R $USER:$USER /usr/local/hadoop</code>.</li>
-    <li>**Tạo người dùng chuyên dụng (Giải pháp nâng cao):** Nếu gặp lỗi phân quyền hệ thống nghiêm trọng, anh có thể tạo một nhóm và người dùng chuyên biệt cho Hadoop, sau đó cấp quyền <code>sudo</code> cho người dùng đó (sử dụng <code>visudo</code>).</li>
+    <li>**Cấp quyền sở hữu:** Đảm bảo thư mục cài đặt thuộc về bạn: <code>sudo chown -R $USER:$USER /usr/local/hadoop</code>.</li>
+    <li>**Tạo người dùng chuyên dụng (Giải pháp nâng cao):** Nếu gặp lỗi phân quyền hệ thống nghiêm trọng, bạn có thể tạo một nhóm và người dùng chuyên biệt cho Hadoop, sau đó cấp quyền <code>sudo</code> cho người dùng đó (sử dụng <code>visudo</code>).</li>
 </ol>
 
 <p>Nếu bạn gặp phải lỗi khác không có trong danh sách này, hãy kiểm tra lại kỹ lưỡng các file XML (đặc biệt là lỗi chính tả) và log file trong <code>/usr/local/hadoop/logs</code> để tìm manh mối.</p>
