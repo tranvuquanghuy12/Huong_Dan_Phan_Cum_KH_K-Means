@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sổ Tay Lệnh & Khắc Phục Lỗi Hadoop 3.3.6</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; padding: 20px; }
+        h1 { color: #2c3e50; border-bottom: 2px solid #3498db; padding-bottom: 10px; }
+        h2 { color: #2980b9; margin-top: 30px; }
+        h3 { color: #e74c3c; margin-top: 25px; border-left: 4px solid #e74c3c; padding-left: 10px; }
+        h4 { color: #2980b9; margin-top: 15px; }
+        hr { border: 0; border-top: 1px solid #ecf0f1; margin: 20px 0; }
+        p { margin-bottom: 15px; }
+        /* Style cho bảng lệnh (giống trang tính) */
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; table-layout: fixed; }
+        th, td { border: 1px solid #bdc3c7; padding: 8px; text-align: left; word-wrap: break-word; font-size: 14px; }
+        th { background-color: #3498db; color: white; font-weight: bold; }
+        tr:nth-child(even) { background-color: #f8f9fa; }
+        .command-group { background-color: #2980b9 !important; color: white !important; font-weight: bold; text-align: center; }
+        
+        /* Style cho khối code */
+        code { background-color: #eee; padding: 2px 4px; border-radius: 3px; font-family: monospace; font-size: 13px; }
+        pre { background-color: #2c3e50; color: #ecf0f1; padding: 10px; border-radius: 5px; overflow-x: auto; }
+        pre code { background-color: transparent; color: inherit; padding: 0; border-radius: 0; font-size: 14px; }
+    </style>
+</head>
+<body>
+
+<h1>Sổ Tay Lệnh & Khắc Phục Lỗi Hadoop 3.3.6 (Single Node)</h1>
+<p>Bảng tổng hợp các lệnh thao tác cơ bản và hướng dẫn khắc phục các lỗi thường gặp trong quá trình vận hành Hadoop trên **Ubuntu/WSL2**.</p>
+
+<hr>
+
+<h2>I. Bảng Tổng Hợp Lệnh Thao Tác Cơ Bản</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Cú pháp Lệnh</th>
+            <th>Ý nghĩa (Mục đích)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="command-group">
+            <td colspan="2">Lệnh Điều khiển Cụm</td>
+        </tr>
+        <tr>
+            <td><code>stop-all.sh</code></td>
+            <td>Dừng hoạt động của tất cả các dịch vụ Hadoop (HDFS và YARN).</td>
+        </tr>
+        <tr>
+            <td><code>start-all.sh</code></td>
+            <td>Chạy toàn bộ hệ thống cụm Hadoop (NN, DN, RM, NM).</td>
+        </tr>
+        <tr>
+            <td><code>jps</code></td>
+            <td>Kiểm tra các tiến trình Java đang chạy (Xác nhận 5 Daemon của Hadoop).</td>
+        </tr>
+        <tr class="command-group">
+            <td colspan="2">Lệnh Chạy Job MapReduce & HDFS</td>
+        </tr>
+        <tr>
+            <td><code>hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.6.jar wordcount /user/$(whoami)/input /user/$(whoami)/output_4</code></td>
+            <td>Chạy Job WordCount (đếm từ) trên dữ liệu đầu vào, ghi kết quả ra thư mục <code>output_4</code>.</td>
+        </tr>
+        <tr>
+            <td><code>hdfs dfs -rm -r /user/$(whoami)/output_4</code></td>
+            <td>Xóa thư mục output trên HDFS (Bắt buộc trước khi chạy lại Job).</td>
+        </tr>
+        <tr>
+            <td><code>hdfs dfs -cat /user/$(whoami)/output_4/part-r-00000</code></td>
+            <td>Xem nội dung của file kết quả Job WordCount trên HDFS.</td>
+        </tr>
+        <tr class="command-group">
+            <td colspan="2">Lệnh Thao Tác Trình Soạn Thảo Nano</td>
+        </tr>
+        <tr>
+            <td><code>Ctrl + O</code> / <code>+ Enter</code></td>
+            <td>Lưu các thay đổi đã thực hiện trong trình soạn thảo <code>nano</code>.</td>
+        </tr>
+        <tr>
+            <td><code>Ctrl + X</code></td>
+            <td>Thoát khỏi trình soạn thảo <code>nano</code>.</td>
+        </tr>
+    </tbody>
+</table>
+
+<hr>
+
+<h2>II. Các Lỗi Thường Gặp và Cách Khắc Phục</h2>
+
+    <h3>1. Lỗi InvalidAuxServiceException (Không tìm thấy dịch vụ Shuffle)</h3>
+    <p><strong>Triệu chứng:</strong> Job thất bại với lỗi <code>org.apache.hadoop.yarn.exceptions.InvalidAuxServiceException: The auxService:mapreduce_shuffle does not exist</code>.</p>
+    <p><strong>Chẩn đoán:</strong> Lỗi trực tiếp do **NodeManager** không tìm thấy khai báo dịch vụ <code>mapreduce_shuffle</code> trong file <code>yarn-site.xml</code>.</p>
+    
+    <h4>🛠️ Giải pháp và Các bước khắc phục:</h4>
+    <ol>
+        <li>**Dừng dịch vụ:** Chạy <code>stop-all.sh</code>.</li>
+        <li>**Kiểm tra/Sửa file <code>yarn-site.xml</code>:** Dùng lệnh <code>nano yarn-site.xml</code> để đảm bảo cấu hình sau đã được thêm/sửa đúng: 
+<pre><code>&lt;property&gt;
+    &lt;name&gt;yarn.nodemanager.aux-services&lt;/name&gt;
+    &lt;value&gt;mapreduce_shuffle&lt;/value&gt;
+&lt;/property&gt;</code></pre>
+        </li>
+        <li>**Khởi động lại dịch vụ:** Chạy <code>start-all.sh</code>.</li>
+        <li>**Chạy lại Job:** Chạy lại Job với tên output mới (hoặc xóa output cũ).</li>
+    </ol>
+
+    <h4>✅ Kết quả (Log Job WordCount thành công):</h4>
+    <p>Khi Job chạy thành công, hệ thống sẽ trả ra các log <code>INFO</code> sau:</p>
+    <ul>
+        <li><code>client.DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager...</code>: Kết nối đến ResourceManager thành công.</li>
+        <li><code>mapreduce.Job: The url to track the job: http://LAPTOP-408D47IP.localdomain:8088/...</code>: Cung cấp URL theo dõi Job trên Web YARN.</li>
+        <li><code>mapreduce.Job: map 100% reduce 100%</code>: Giai đoạn Map và Reduce hoàn tất.</li>
+        <li><code>mapreduce.Job: Job job_1763916885733_0001 completed successfully</code>: **Job đã hoàn thành thành công!**</li>
+    </ul>
+
+    <h3>2. Lỗi Không truy cập được giao diện YARN UI (localhost:8088)</h3>
+    <p><strong>Triệu chứng:</strong> Các tiến trình Hadoop đang chạy (<code>jps</code> đủ 5 tiến trình) nhưng không thể truy cập được địa chỉ <code>http://localhost:8088</code>.</p>
+    <p><strong>Chẩn đoán:</strong> **ResourceManager** đang chạy nhưng cổng 8088 chưa được liên kết (bind) tới địa chỉ <code>0.0.0.0</code> để Windows/WSL2 có thể truy cập được.</p>
+    
+    <h4>🛠️ Giải pháp và Các bước khắc phục:</h4>
+    <ol>
+        <li>**Kiểm tra tiến trình:** Chạy <code>jps</code> (phải thấy đủ 5 tiến trình).</li>
+        <li>**Sửa cấu hình liên kết Web:** Mở file <code>yarn-site.xml</code> và thêm khối cấu hình sau (hoặc thay đổi giá trị <code>&lt;value&gt;</code>) vào giữa thẻ <code>&lt;configuration&gt;</code>: 
+<pre><code>&lt;property&gt;
+    &lt;name&gt;yarn.resourcemanager.webapp.address&lt;/name&gt;
+    &lt;value&gt;0.0.0.0:8088&lt;/value&gt;
+&lt;/property&gt;</code></pre>
+        </li>
+        <li>**Khởi động lại bắt buộc:** Chạy <code>stop-all.sh</code> và sau đó <code>start-all.sh</code> để áp dụng cấu hình mới.</li>
+        <li>**Kiểm tra lại:** Truy cập <code>http://localhost:8088</code>.</li>
+    </ol>
+
+<hr>
+
+<h2>III. Hướng Dẫn Khởi Động Lại Hadoop Sau Khi Tắt Máy</h2>
+<p>Để tiết kiệm tài nguyên và đảm bảo hệ thống ổn định, anh cần tuân thủ quy trình khởi động lại Hadoop/WSL2 sau khi máy tính đã tắt:</p>
+
+<ol>
+    <li>**Khởi động Môi trường Ubuntu (WSL2):** Mở CMD hoặc PowerShell và gõ lệnh:
+<pre><code>wsl</code></pre>
+    </li>
+    <li>**Kiểm tra trạng thái:** Sau khi vào terminal Ubuntu, chạy <code>jps</code> (chỉ nên thấy <code>Jps</code> và <code>bash</code>).</li>
+    <li>**Khởi động lại Cụm:** Chạy lệnh để nạp lại cấu hình và khởi động các dịch vụ HDFS/YARN:
+<pre><code>start-all.sh</code></pre>
+    </li>
+    <li>**Tắt Toàn bộ Hệ thống (Khi Dùng Xong):**
+        <ul>
+            <li>**Tắt Hadoop (Trong Ubuntu):** <code>stop-all.sh</code></li>
+            <li>**Tắt WSL2 (Trong CMD/PowerShell Windows):** <code>wsl --shutdown</code></li>
+        </ul>
+    </li>
+</ol>
+
+</body>
+</html>
