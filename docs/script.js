@@ -84,40 +84,6 @@ window.loadContent = async function(id, title) {
     }
 };
 
-/* ===============================
-      HÀM UPLOAD FILE (GIỮ NGUYÊN)
-================================= */
-window.handleUpload = async function(form) {
-    const fileInput = document.getElementById('file-upload-input');
-    const statusDiv = document.getElementById('upload-status');
-    
-    if (fileInput.files.length === 0) {
-        statusDiv.innerText = "Vui lòng chọn file.";
-        return;
-    }
-
-    const formData = new FormData(form);
-    statusDiv.innerHTML = 'Đang tải lên... <i class="fas fa-spinner fa-spin"></i>';
-
-    try {
-        const response = await fetch(`${TELEDRIVE_API}/api/upload`, {
-            method: 'POST',
-            body: formData,
-            credentials: 'include'
-        });
-
-        const result = await safeJSON(response);
-
-        if (response.ok) {
-            statusDiv.innerHTML = `<span style="color: green;">✅ Tải lên thành công! File: ${result.filename}</span>`;
-        } else {
-            statusDiv.innerHTML = `<span style="color: red;">❌ Lỗi ${response.status}: ${result.detail || 'Lỗi không xác định'}</span>`;
-        }
-
-    } catch (e) {
-        statusDiv.innerHTML = `<span style="color: red;">❌ Lỗi kết nối server: ${e.message}</span>`;
-    }
-};
 
 /* ===============================
       LOGIC DROPDOWN & KHỞI TẠO (ĐÃ SỬA)

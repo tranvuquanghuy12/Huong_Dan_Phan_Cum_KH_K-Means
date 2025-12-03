@@ -10,121 +10,93 @@
 <body>
     <nav class="top-nav">
         <div class="container">
-            <a href="index.html" class="home-icon"><i class="fas fa-home"></i></a>
+            <a onclick="loadContent('home')" class="home-icon" style="cursor: pointer;"><i class="fas fa-home"></i></a>
             
             <div class="nav-dropdown">
-                <a href="#" class="nav-link">TELEDRIVE</a>
-                <div class="dropdown-menu-nav">
-                    <a onclick="loadContent('deploy')">Deploy</a>
-                    <a onclick="loadContent('operate')">Vận hành</a>
-                    <a onclick="loadContent('troubleshooting')">Xử lý lỗi</a>
-                </div>
+                <a onclick="loadContent('git')" class="nav-link" style="cursor: pointer;">SỬ DỤNG GITHUB (GIT)</a>
             </div>
 
             <div class="nav-dropdown">
-                <a href="#" class="nav-link">HADOOP3</a>
-                <div class="dropdown-menu-nav">
-                    <a onclick="loadContent('hadoop3')">Hadoop 3.0</a>
-                    <a onclick="loadContent('sdhadoop3')">Sử Dụng Hadoop 3.0 (p1)</a>
-                    <a onclick="loadContent('sdhadoop4')">Sử Dụng Hadoop 3.0 (p2)</a>
-                    <a onclick="loadContent('loihadoop1')">Lỗi khi sử dụng Hadoop 3.0</a>
-                    <a onclick="loadContent('loihadoop3')">Xử lý lỗi</a>
-                </div>
+                <a onclick="loadContent('cmd')" class="nav-link" style="cursor: pointer;">COMMANDS (CMD)</a>
             </div>
-            <a onclick="loadContent('phancumkmeans')">Phân cụm KH KMeans</a>
-            <a href="https://github.com/tranvuquanghuy12" target="_blank">GITHUB</a>
-            <a onclick="loadContent('upload_page')">GỬi LÊN TELEDRIVE</a>
-            <a onclick="loadContent('about')">VỀ CHÚNG TÔI</a>
+
+            <div class="nav-dropdown">
+                <a onclick="loadContent('env')" class="nav-link" style="cursor: pointer;">ENVIRONMENT (ENV)</a>
+            </div>
+
+            <a href="https://github.com/tranvuquanghuy12" target="_blank">GITHUB CỦA T</a>
+            <a onclick="loadContent('about')">VỀ TÔI</a>
         </div>
     </nav>
 
     <header class="banner">
             <img src="./images/TLU.webp" alt="Logo Đại học Thủy Lợi" class="school-logo">
         <div class="banner-overlay">
-            <h1>HƯỚNG DẪN TELEDRIVE</h1>
-            <p>Giải pháp lưu trữ đám mây không giới hạn trên nền tảng Telegram</p>
+            <h1>HƯỚNG DẪN CƠ BẢN TRIỂN KHAI CÁC MÔ HÌNH HỌC MÁY</h1>
+            <p>Hệ thống tài liệu: Home - Commands - Environment</p>
         </div>
     </header>
 
     <div class="container">
         <div class="quick-links">
-            <div class="tile tile-green" onclick="loadContent('overview')">
+            <div class="tile tile-green" onclick="loadContent('home')">
                 <img src="./images/TLU.webp" alt="Logo Đại học Thủy Lợi" class="school-logo-sidebar">
-                <span>Tổng Quan</span>
+                <span>Trang Chủ (Home)</span>
             </div>
             
-            <div class="tile tile-teal" onclick="toggleQuickLinkDropdown(this)"> 
-                <i class="fas fa-laptop-code"></i>
-                <span>TeleDrive</span>
-                <div class="dropdown-menu-nav" style="top: 90px; min-width: 100%; border-radius: 0 0 4px 4px;"> 
-                    <a onclick="loadContent('deploy')">Deploy</a>
-                    <a onclick="loadContent('operate')">Vận hành</a>
-                    <a onclick="loadContent('loihadoop3')">Xử lý lỗi</a>
-                </div>
+            <div class="tile tile-teal" onclick="loadContent('cmdgit')"> 
+                <i class="fas fa-terminal"></i>
+                <span>Sử dụng Git và CMD</span>
             </div>
-            
-            <div class="tile tile-blue" onclick="toggleQuickLinkDropdown(this)">
-                <i class="fab fa-windows"></i>
-                <span>Hadoop 3.0</span>
-                <div class="dropdown-menu-nav" style="top: 90px; min-width: 100%; border-radius: 0 0 4px 4px;"> 
-                    <a onclick="loadContent('hadoop3')">Hadoop 3.0</a>
-                    <a onclick="loadContent('sdhadoop3')">Sử Dụng Hadoop 3.0 (p1)</a>
-                    <a onclick="loadContent('sdhadoop4')">Sử Dụng Hadoop 3.0 (p2)</a>
 
-                    <a onclick="loadContent('loihadoop1')">Lỗi khi sử dụng Hadoop 3.0</a>
-                    <a onclick="loadContent('loihadoop3')">Xử lý lỗi</a>
-                </div>
+            <div class="tile tile-teal" onclick="loadContent('cmd')"> 
+                <i class="fas fa-terminal"></i>
+                <span>Danh sách Lệnh (Cmd)</span>
+            </div>
+            
+            <div class="tile tile-blue" onclick="loadContent('env')">
+                <i class="fab fa-linux"></i>
+                <span>Môi trường (Env)</span>
             </div>
             
             <a href="https://github.com/tranvuquanghuy12" target="_blank" class="tile tile-dark">
                 <i class="fab fa-github"></i> 
-                <span>GITHUB</span>
+                <span>GITHUB CỦA T</span>
             </a>
-            <div class="tile tile-blue" onclick="loadContent('phancumkmeans')">
-                <i class="fas fa-python"></i>
-                <span>Phân cụm KH KMeans</span>
-            </div>
-            <div class="tile tile-red" onclick="loadContent('upload_page')">
-                <i class="fas fa-paper-plane"></i> 
-                <span>Gửi lên TeleDrive</span>
-            </div>
 
             <div class="tile tile-yellow" onclick="loadContent('about')">
-                <i class="fas fa-users"></i>
-                <span>VỀ CHÚNG TÔI</span>
+                <i class="fas fa-user-graduate"></i>
+                <span>VỀ TÁC GIẢ</span>
             </div>
-            
         </div>
         
         <div class="main-layout">
             <main class="content-column">
                 <div class="breadcrumbs">
                     <i class="fas fa-folder-open"></i>
-                    <span>Trang chủ</span> <span class="sep">/</span> 
-                    <span id="breadcrumb-current">Tổng Quan</span>
+                    <span>Tài liệu</span> <span class="sep">/</span> 
+                    <span id="breadcrumb-current">Nội dung đang xem</span>
                 </div>
 
                 <div id="content-display" class="post-content">
-                    <div class="loader"></div>
+                    <div class="loader">Loading...</div>
                 </div>
             </main>
 
             <aside class="sidebar-column">
                 <div class="search-box">
-                    <input type="text" id="search-input" placeholder="Tìm kiếm...">
+                    <input type="text" id="search-input" placeholder="Tìm kiếm lệnh...">
                     <button><i class="fas fa-search"></i></button>
                 </div>
 
                 <div class="sidebar-widget">
-                    <h3 class="widget-title">CHỦ ĐỀ</h3>
+                    <h3 class="widget-title">MENU CHÍNH</h3>
                     <ul id="guide-menu" class="widget-list">
-                        <li data-target="overview" class="active">Giới Thiệu Chung</li>
-                        <li data-target="deploy">Deploy</li>
-                        <li data-target="operate">Vận hành</li>
-                        <li data-target="troubleshooting">Các Lỗi Thường Gặp</li>
-                        <li data-target="hadoop3">HADOOP3</li>
-                        <li data-target="about">
-                             <i class="fas fa-users"></i> Về Chúng Tôi
+                        <li data-target="home" onclick="loadContent('home')" class="active">Trang chủ (Home)</li>
+                        <li data-target="cmd" onclick="loadContent('cmd')">Các câu lệnh (Cmd)</li>
+                        <li data-target="env" onclick="loadContent('env')">Cấu hình (Env)</li>
+                        <li data-target="about" onclick="loadContent('about')">
+                             <i class="fas fa-users"></i> Thông tin sinh viên
                         </li>
                     </ul>
                     <div id="no-result" style="display:none; padding:10px; color:red;">Không tìm thấy</div>
@@ -134,7 +106,7 @@
     </div>
 
     <footer class="site-footer">
-        <p>Copyright &copy; 2025. Design by Tran Vu Quang Huy.</p>
+        <p>Copyright &copy; 2025. Design by Tran Vu Quang Huy - TLU.</p>
     </footer>
 
     <script src="script.js"></script>

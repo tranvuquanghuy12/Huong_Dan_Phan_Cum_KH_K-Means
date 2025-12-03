@@ -1,0 +1,73 @@
+<div class="tutorial-container">
+    <h1>Git Clone: Nghệ thuật "Luộc" Code</h1>
+    <p class="intro-text">
+        "Clone" nghe thì sang mồm (như kiểu Phân thân chi thuật), nhưng thực chất là việc ae 
+        <b>bê nguyên xi</b> cái kho chứa code (Repository) từ trên mạng về máy tính của mình. 
+        Đây là bước đầu tiên để ae tiếp cận "di sản" của người đi trước (hoặc lấy bài tập lớn mẫu về tham khảo).
+    </p>
+
+    
+
+    <div class="step-guide">
+        <h2>Bước 1: Đi chợ (Lấy Link)</h2>
+        <p>Vào trang GitHub chứa cái repo ae muốn lấy</p>
+        Ví dụ thực tế: Bấm vào link này <a href="https://github.com/nguyenhads/advanced_customer_segmentation/tree/master" target="_blank">
+        <p>Sau khi vào trang, tìm cái nút màu xanh lá cây huyền thoại <b>[<> Code]</b>.
+        Sau đó chọn tab <b>HTTPS</b> và copy cái đường link (nhìn giống <code>https://github.com/...</code>).</p>
+        <img src="./images/cmdgit0.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+
+    </div>
+
+    <div class="step-guide">
+        <h2>Bước 2: Tạo Folder để clone project về</h2>
+        <p>Ae mở File Explorer lên, vào 1 ổ (ví dụ là ổ D nhé) <b>[<> Code]</b>.</p>
+        <p>Chuột phải tạo new folder hoặc Ctrl + Shift + n vào làm theo hướng dẫn.</p>
+        <img src="./images/cmdgit1.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+        <p>Sao chép đường dẫn thư mục này lại để lát nữa dùng trong CMD (copy cái thanh địa chỉ trên cùng ấy).</p>
+    </div>
+
+    <div class="step-guide">
+        <h2>Bước 3: Niệm thần chú</h2>
+        <p>Mở <b>CMD</b> bằng cách gõ "cmd" vào ổ search hoặc dùng Window + R rồi gõ "cmd" ấn Enter lên. Di chuyển đến thư mục ae muốn chứa code (dùng lệnh <code>cd</code>).</p>
+        <img src="./images/cmdgit2.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+
+        <p>Gõ các dòng lệnh sau và nhấn Enter để xác nhận sử dụng lệnh đấy:</p>
+        <div class="example-box" style="background: #f4f4f4; padding: 15px; border-left: 5px solid #2ecc71; margin-top: 10px;">
+    <h3>🔎 Ví dụ thực chiến: Quy hoạch ổ D</h3>
+    <p><b>Bài toán:</b> ae đang ở đâu đó không biết, giờ muốn truy cập vào folder mình muốn và clone code vào đúng chỗ đó.</p>
+    
+    <p><b>Thao tác gõ lệnh (từng dòng một):</b></p>
+    
+            <div class="code-block" style="background: #2d3436; color: #fff; padding: 15px; border-radius: 5px; font-family: monospace;">
+                <pre><code>
+        <span style="color: #fab1a0;"># 1. Chuyển hướng CMD đến vị trí mà ae muốn đặt project ở đấy, cái mà nãy t bảo ae copy ở bước 2 ấy </span>
+        Cú pháp là: cd /[ổ-đĩa viết thường] [ổ-đĩa viết hoa]:\[đường-dẫn-thư-mục]
+        Ví dụ thực tế: cd /d D:\MachineLearning\Phan_Cum_KH_K-Means
+
+        Vậy là ae đã vào đúng thư mục muốn đặt project rồi đó. Giờ chỉ cần gõ lệnh clone thôi
+        Lệnh cd kia giống như ghi địa chỉ nhà v, rồi h mình gọi thợ đến đúng địa chỉ này để xây dựng mô hình Học Máy mà mình cần.
+        
+        
+        <span style="color: #fab1a0;"># 2. Clone code về (Lưu ý dấu chấm "." ở cuối để nó không đẻ thêm folder con nữa)</span>
+        Cú pháp là: git clone [link-repo.git] . (Cái link-repo.git là cái link ae vừa copy ở bước 1 ấy, dán vào đây)
+        Ví dụ thực tế (Link GitHub về Phân Cụm Khách hàng bằng K-Means):
+        git clone https://github.com/nguyenhads/advanced_customer_segmentation.git .
+                </code></pre>
+            </div>
+    
+        </div>
+        
+        <p>Chờ một chút để Git tải toàn bộ code về máy. Nếu thành công, ae sẽ thấy một loạt file hiện ra trong thư mục vừa chọn</p>
+
+    </div>
+
+    <div class="step-guide">
+        <h2>Bước 3: Hưởng thụ thành quả</h2>
+        <p>Sau khi màn hình chạy chữ xong như ảnh này, tức là ae clone project thành công.</p>
+        <img src="./images/cmdgit3.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+
+        <p>Giờ thì bắt đầu thiết lập môi trường để chạy thôi.</p>
+    </div>
+
+    
+</div>

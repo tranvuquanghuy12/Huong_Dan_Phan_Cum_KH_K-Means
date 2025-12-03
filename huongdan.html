@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Bảng Lệnh Git Cơ Bản & Nâng Cao</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f0f4ff;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px 35px;
+            border-radius: 12px;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.10);
+        }
+        h1 {
+            text-align: center;
+            color: #0b4fa8;
+            margin-bottom: 10px;
+        }
+        h2 {
+            margin-top: 40px;
+            color: #0b4fa8;
+        }
+        p.subtitle {
+            text-align: center;
+            color: #555;
+            margin-bottom: 25px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+            margin-bottom: 40px;
+        }
+        th, td {
+            border: 1px solid #d6d9e2;
+            padding: 10px;
+            text-align: left;
+            vertical-align: top;
+        }
+        th {
+            background: #0b4fa8;
+            color: #fff;
+        }
+        tr:nth-child(even) td {
+            background: #f7faff;
+        }
+        code {
+            background: #eeeeee;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .note {
+            font-size: 13px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <h1>Bảng Lệnh Git Cơ Bản & Nâng Cao</h1>
+    <p class="subtitle">Dành cho học tập – làm dự án – cứu project</p>
+
+    <!-- TABLE 1 -->
+    <h2>📌 1. Lệnh Git Cơ Bản</h2>
+    <table>
+        <tr>
+            <th>Nhóm</th><th>Lệnh</th><th>Ý nghĩa</th><th>Ví dụ</th>
+        </tr>
+
+        <!-- CLONE -->
+        <tr>
+            <td rowspan="2"><b>Clone & Khởi tạo</b></td>
+            <td><code>git clone URL</code></td>
+            <td>Tải project từ GitHub</td>
+            <td><code>git clone https://github.com/user/demo.git</code></td>
+        </tr>
+        <tr>
+            <td><code>git init</code></td>
+            <td>Tạo repo Git mới</td>
+            <td><code>git init</code></td>
+        </tr>
+
+        <!-- STATUS -->
+        <tr>
+            <td rowspan="2"><b>Kiểm tra</b></td>
+            <td><code>git status</code></td>
+            <td>Xem file thay đổi</td>
+            <td><code>git status</code></td>
+        </tr>
+        <tr>
+            <td><code>git log</code></td>
+            <td>Lịch sử commit</td>
+            <td><code>git log</code></td>
+        </tr>
+
+        <!-- ADD + COMMIT -->
+        <tr>
+            <td rowspan="3"><b>Lưu thay đổi</b></td>
+            <td><code>git add .</code></td>
+            <td>Thêm toàn bộ file</td>
+            <td><code>git add .</code></td>
+        </tr>
+        <tr>
+            <td><code>git add filename</code></td>
+            <td>Thêm 1 file</td>
+            <td><code>git add index.html</code></td>
+        </tr>
+        <tr>
+            <td><code>git commit -m "msg"</code></td>
+            <td>Tạo commit</td>
+            <td><code>git commit -m "Update UI"</code></td>
+        </tr>
+
+        <!-- PUSH -->
+        <tr>
+            <td rowspan="2"><b>Push</b></td>
+            <td><code>git push</code></td>
+            <td>Đẩy commit lên GitHub</td>
+            <td><code>git push</code></td>
+        </tr>
+        <tr>
+            <td><code>git push -f</code></td>
+            <td>Force push</td>
+            <td><code>git push -f origin main</code></td>
+        </tr>
+
+        <!-- PULL -->
+        <tr>
+            <td rowspan="2"><b>Kéo code</b></td>
+            <td><code>git pull</code></td>
+            <td>Kéo code mới nhất</td>
+            <td><code>git pull</code></td>
+        </tr>
+        <tr>
+            <td><code>git fetch</code></td>
+            <td>Kéo về nhưng chưa merge</td>
+            <td><code>git fetch origin</code></td>
+        </tr>
+
+        <!-- BRANCH -->
+        <tr>
+            <td rowspan="3"><b>Branch</b></td>
+            <td><code>git branch</code></td>
+            <td>Xem branch</td>
+            <td><code>git branch</code></td>
+        </tr>
+        <tr>
+            <td><code>git checkout -b new_branch</code></td>
+            <td>Tạo branch mới</td>
+            <td><code>git checkout -b feature-login</code></td>
+        </tr>
+        <tr>
+            <td><code>git switch branch</code></td>
+            <td>Chuyển branch</td>
+            <td><code>git switch main</code></td>
+        </tr>
+
+        <!-- RESET -->
+        <tr>
+            <td rowspan="3"><b>Undo / Restore</b></td>
+            <td><code>git reset --hard commitID</code></td>
+            <td>Quay lại commit (xoá thay đổi)</td>
+            <td><code>git reset --hard 9651fb0</code></td>
+        </tr>
+        <tr>
+            <td><code>git checkout commitID</code></td>
+            <td>Xem code commit cũ</td>
+            <td><code>git checkout a843f93</code></td>
+        </tr>
+        <tr>
+            <td><code>git reflog</code></td>
+            <td>Xem lịch sử HEAD (cứu project)</td>
+            <td><code>git reflog</code></td>
+        </tr>
+    </table>
+
+
+
+    <!-- TABLE 2 -->
+    <h2>📌 2. Lệnh Git Nâng Cao (Quản lý Project Chuyên Nghiệp)</h2>
+
+    <table>
+        <tr>
+            <th>Nhóm</th><th>Lệnh</th><th>Ý nghĩa</th><th>Ví dụ</th>
+        </tr>
+
+        <!-- REMOTE -->
+        <tr>
+            <td rowspan="3"><b>Remote (URL GitHub)</b></td>
+            <td><code>git remote -v</code></td>
+            <td>Xem URL đang dùng</td>
+            <td><code>git remote -v</code></td>
+        </tr>
+        <tr>
+            <td><code>git remote set-url origin URL</code></td>
+            <td>Thay đổi đường dẫn GitHub</td>
+            <td><code>git remote set-url origin https://github.com/user/new.git</code></td>
+        </tr>
+        <tr>
+            <td><code>git remote remove origin</code></td>
+            <td>Xóa remote cũ</td>
+            <td><code>git remote remove origin</code></td>
+        </tr>
+
+        <!-- MERGE -->
+        <tr>
+            <td rowspan="2"><b>Merge</b></td>
+            <td><code>git merge branch</code></td>
+            <td>Gộp nhánh</td>
+            <td><code>git merge feature-login</code></td>
+        </tr>
+        <tr>
+            <td><code>git mergetool</code></td>
+            <td>Dùng tool để resolve conflict</td>
+            <td><code>git mergetool</code></td>
+        </tr>
+
+        <!-- REBASE -->
+        <tr>
+            <td rowspan="2"><b>Rebase</b></td>
+            <td><code>git rebase main</code></td>
+            <td>Làm lịch sử commit sạch hơn</td>
+            <td><code>git rebase main</code></td>
+        </tr>
+        <tr>
+            <td><code>git rebase --continue</code></td>
+            <td>Tiếp tục sau khi sửa conflict</td>
+            <td><code>git rebase --continue</code></td>
+        </tr>
+
+        <!-- STASH -->
+        <tr>
+            <td rowspan="2"><b>Stash</b></td>
+            <td><code>git stash</code></td>
+            <td>Lưu tạm thay đổi để chuyển branch</td>
+            <td><code>git stash</code></td>
+        </tr>
+        <tr>
+            <td><code>git stash pop</code></td>
+            <td>Lấy lại thay đổi đã stash</td>
+            <td><code>git stash pop</code></td>
+        </tr>
+
+        <!-- DELETE BRANCH -->
+        <tr>
+            <td rowspan="2"><b>Xóa Branch</b></td>
+            <td><code>git branch -d branch</code></td>
+            <td>Xóa branch local</td>
+            <td><code>git branch -d feature-login</code></td>
+        </tr>
+        <tr>
+            <td><code>git push origin --delete branch</code></td>
+            <td>Xóa branch trên GitHub</td>
+            <td><code>git push origin --delete feature-login</code></td>
+        </tr>
+
+        <!-- RESTORE -->
+        <tr>
+            <td rowspan="2"><b>Khôi phục file</b></td>
+            <td><code>git restore file</code></td>
+            <td>Khôi phục file về trạng thái commit gần nhất</td>
+            <td><code>git restore index.html</code></td>
+        </tr>
+        <tr>
+            <td><code>git restore --source commitID file</code></td>
+            <td>Lấy lại file phiên bản cũ</td>
+            <td><code>git restore --source=a843f93 login.py</code></td>
+        </tr>
+
+        <!-- CHERRY PICK -->
+        <tr>
+            <td><b>Cherry-pick</b></td>
+            <td><code>git cherry-pick commitID</code></td>
+            <td>Lấy 1 commit từ branch khác</td>
+            <td><code>git cherry-pick 42590d0</code></td>
+        </tr>
+
+        <!-- UNDO -->
+        <tr>
+            <td rowspan="2"><b>Undo commit</b></td>
+            <td><code>git reset --soft HEAD~1</code></td>
+            <td>Undo commit nhưng giữ code</td>
+            <td><code>git reset --soft HEAD~1</code></td>
+        </tr>
+        <tr>
+            <td><code>git reset HEAD file</code></td>
+            <td>Bỏ add 1 file</td>
+            <td><code>git reset HEAD style.css</code></td>
+        </tr>
+
+        <!-- SSH -->
+        <tr>
+            <td rowspan="2"><b>SSH Key</b></td>
+            <td><code>ssh-keygen</code></td>
+            <td>Tạo SSH key</td>
+            <td><code>ssh-keygen -t rsa -b 4096</code></td>
+        </tr>
+        <tr>
+            <td><code>clip &lt; ~/.ssh/id_rsa.pub</code></td>
+            <td>Copy key để add GitHub</td>
+            <td><code>clip &lt; ~/.ssh/id_rsa.pub</code></td>
+        </tr>
+    </table>
+
+    <p class="note">
+        Đây là bộ lệnh Git toàn diện – đủ cho mọi tình huống: làm dự án, teamwork, cứu project, hoặc tối ưu quản lý code.
+    </p>
+
+</div>
+</body>
+</html>
