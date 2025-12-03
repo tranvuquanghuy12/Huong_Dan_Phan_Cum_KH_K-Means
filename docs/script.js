@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 5. Khởi tạo trang mặc định
-    loadContent('overview', 'Giới Thiệu Chung');
+    loadContent('home', 'Giới Thiệu Chung');
 
     window.triggerMenu = function(id) {
         loadContent(id);
