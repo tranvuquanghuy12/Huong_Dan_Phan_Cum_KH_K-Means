@@ -1,72 +1,63 @@
 <div class="tutorial-container">
     <h1>Git Clone: Nghệ thuật "Luộc" Code</h1>
     <p class="intro-text">
-        "Clone" nghe thì sang mồm (như kiểu Phân thân chi thuật), nhưng thực chất là việc ae 
+        "Clone" nghe thì sang mồm (như kiểu Phân thân chi thuật), nhưng thực chất là việc anh em 
         <b>bê nguyên xi</b> cái kho chứa code (Repository) từ trên mạng về máy tính của mình. 
-        Đây là bước đầu tiên để ae tiếp cận "di sản" của người đi trước (hoặc lấy bài tập lớn mẫu về tham khảo).
+        Đây là bước đầu tiên để tiếp cận "di sản" của người đi trước.
     </p>
 
-    
-
     <div class="step-guide">
-    <h2>Bước 1: Đi chợ (Lấy Link)</h2>
-    <p>Vào trang GitHub chứa cái repo ae muốn lấy</p>
-    
-    <p>Ví dụ thực tế: Bấm vào link này <a href="https://github.com/nguyenhads/advanced_customer_segmentation/tree/master" target="_blank">tại đây</a></p>
-    <p>Sau khi vào trang, tìm cái nút màu xanh lá cây huyền thoại <b>[<> Code]</b>.
-    Sau đó chọn tab <b>HTTPS</b> và copy cái đường link (nhìn giống <code>https://github.com/...</code>).</p>
-    
-    <img src="./images/cmdgit0.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
-</div>
+        <h2>Bước 1: Đi chợ (Lấy Link)</h2>
+        <p>Vào trang GitHub chứa cái repo anh em muốn lấy.</p>
+        
+        <p>Ví dụ thực tế: Truy cập <a href="https://github.com/nguyenhads/advanced_customer_segmentation/tree/master" target="_blank" style="color: #007bff; text-decoration: underline; font-weight: bold;">Link GitHub mẫu tại đây</a></p>
+        
+        <p>Sau khi vào trang, tìm cái nút màu xanh lá cây huyền thoại <b>[<> Code]</b>.
+        Sau đó chọn tab <b>HTTPS</b> và copy cái đường link (nhìn giống <code>https://github.com/...</code>).</p>
+        
+        <img src="./images/cmdgit0.png" alt="Lấy link GitHub" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+    </div>
 
     <div class="step-guide">
         <h2>Bước 2: Tạo Folder để clone project về</h2>
-        <p>Ae mở File Explorer lên, vào 1 ổ (ví dụ là ổ D nhé) <b>[<> Code]</b>.</p>
-        <p>Chuột phải tạo new folder hoặc Ctrl + Shift + n vào làm theo hướng dẫn.</p>
-        <img src="./images/cmdgit1.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
-        <p>Sao chép đường dẫn thư mục này lại để lát nữa dùng trong CMD (copy cái thanh địa chỉ trên cùng ấy).</p>
+        <p>Anh em mở File Explorer lên, vào 1 ổ bất kỳ (ví dụ là ổ D nhé).</p>
+        <p>Chuột phải chọn <b>New > Folder</b> (hoặc ấn <code>Ctrl + Shift + N</code>) để tạo thư mục mới.</p>
+        
+        <img src="./images/cmdgit1.png" alt="Tạo folder" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+        
+        <p>Sao chép đường dẫn thư mục này lại để lát nữa dùng trong CMD (bấm vào cái thanh địa chỉ trên cùng ấy).</p>
     </div>
 
     <div class="step-guide">
-        <h2>Bước 3: Niệm thần chú</h2>
-        <p>Mở <b>CMD</b> bằng cách gõ "cmd" vào ổ search hoặc dùng Window + R rồi gõ "cmd" ấn Enter lên. Di chuyển đến thư mục ae muốn chứa code (dùng lệnh <code>cd</code>).</p>
+        <h2>Bước 3: Niệm thần chú (Gõ lệnh)</h2>
+        <p>Mở <b>CMD</b> bằng cách gõ "cmd" vào ô Search của Windows hoặc ấn <code>Win + R</code> rồi gõ "cmd".</p>
         <img src="./images/cmdgit2.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
 
-        <p>Gõ các dòng lệnh sau và nhấn Enter để xác nhận sử dụng lệnh đấy:</p>
-    <h3>🔎 Ví dụ thực chiến: Quy hoạch ổ D</h3>
-    <p><b>Bài toán:</b> Ae đang ở đâu đó không biết, giờ muốn truy cập vào folder mình muốn và clone code vào đúng chỗ đó.</p>
-    
-    <p><b>Thao tác gõ lệnh (từng dòng một):</b></p>
-    
-    <div class="step-guide">
-        <p><b>Bước 1: Chuyển hướng CMD đến vị trí muốn đặt project</b></p>
-        <p>Đây chính là cái đường dẫn mà nãy t bảo ae copy ở bước 2 ấy.</p>
-        <p>Cú pháp là: <code>cd /d [đường-dẫn-thư-mục]</code></p>
-        
-        <p><i>Ví dụ thực tế:</i></p>
-        <p><code>cd /d D:\MachineLearning\Phan_Cum_KH_K-Means</code></p>
-        
-        <p>👉 <i>Giải thích:</i> Lệnh <code>cd</code> kia giống như ghi địa chỉ nhà vậy, rồi giờ mình gọi thợ đến đúng địa chỉ này để xây dựng mô hình Học Máy mà mình cần. Gõ xong lệnh này là ae đã đứng đúng trong thư mục rồi đó.</p>
-    </div>
+        <div style="background-color: #f8f9fa; padding: 20px; border-left: 5px solid #2ecc71; margin: 20px 0; border-radius: 4px;">
+            <h3 style="margin-top: 0;">🔎 Ví dụ thực chiến: Quy hoạch ổ D</h3>
+            <p><b>Bài toán:</b> Anh em đang ở đâu đó không biết, giờ muốn truy cập vào folder <code>D:\MachineLearning\Phan_Cum_KH_K-Means</code> và clone code vào đó.</p>
+            
+            <p><b>Thao tác 1: Chuyển hướng CMD đến thư mục muốn đặt project</b></p>
+            <p>Gõ lệnh sau rồi Enter:</p>
+            <p><code style="background: #e9ecef; padding: 5px 10px; font-size: 1.1em; color: #d63384;">cd /d D:\MachineLearning\Phan_Cum_KH_K-Means</code></p>
+            <p><i>(Giải thích: Lệnh <code>cd /d</code> giúp anh em nhảy dù thẳng từ ổ C sang đúng cái địa chỉ nhà bên ổ D luôn).</i></p>
+            
+            <hr style="border: 0; border-top: 1px solid #ddd; margin: 15px 0;">
 
-    <div class="step-guide" style="margin-top: 20px;">
-        <p><b>Bước 2: Clone code về</b> (Lưu ý dấu chấm "." ở cuối để nó không đẻ thêm folder con nữa)</p>
-        <p>Cú pháp là: <code>git clone [link-repo.git] .</code></p>
-        <p><i>(Cái link-repo.git là cái link ae vừa copy ở bước 1 ấy, dán vào đây)</i></p>
+            <p><b>Thao tác 2: Clone code về</b></p>
+            <p>Sau khi đã vào đúng thư mục, gõ tiếp lệnh:</p>
+            <p><code style="background: #e9ecef; padding: 5px 10px; font-size: 1.1em; color: #d63384;">git clone https://github.com/nguyenhads/advanced_customer_segmentation.git .</code></p>
+            <p><i>(Lưu ý: Cái dấu chấm <code>.</code> ở cuối cực quan trọng, nó giúp code nằm gọn ngay trong folder hiện tại chứ không đẻ thêm folder con nữa).</i></p>
+        </div>
         
-        <p><i>Ví dụ thực tế (Link GitHub về Phân Cụm Khách hàng bằng K-Means):</i></p>
-        <p><code>git clone https://github.com/nguyenhads/advanced_customer_segmentation.git .</code></p>
+        <p>Chờ một chút để Git tải toàn bộ code về máy. Nếu không báo lỗi đỏ lòm là thành công!</p>
     </div>
-        
-    <p>Chờ một chút để Git tải toàn bộ code về máy. Nếu thành công, ae sẽ thấy một loạt file hiện ra trong thư mục vừa chọn.</p>
 
     <div class="step-guide">
-        <h2>Bước 3: Hưởng thụ thành quả</h2>
-        <p>Sau khi màn hình chạy chữ xong như ảnh này, tức là ae clone project thành công.</p>
-        <img src="./images/cmdgit3.png" alt="Màn hình CMD" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
+        <h2>Bước 4: Hưởng thụ thành quả</h2>
+        <p>Sau khi màn hình chạy chữ xong như ảnh dưới, tức là anh em đã clone project thành công.</p>
+        <img src="./images/cmdgit3.png" alt="Clone thành công" style="max-width: 80%; display: block; margin: 20px auto; border-radius: 8px;">
 
-        <p>Giờ thì bắt đầu thiết lập môi trường để chạy thôi.</p>
+        <p>Giờ thì bắt đầu thiết lập môi trường để chạy code thôi!</p>
     </div>
-
-    
 </div>
