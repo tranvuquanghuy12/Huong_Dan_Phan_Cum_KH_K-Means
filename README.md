@@ -9,7 +9,7 @@
   </p>
 
   <a href="https://github.com/tranvuquanghuy12">
-    <img src="https://img.shields.io/badge/Author-Huy%20Trần-blue?style=for-the-badge&logo=github" alt="Author">
+    <img src="https://img.shields.io/badge/Author-tvqh12-blue?style=for-the-badge&logo=github" alt="Author">
   </a>
   <img src="https://img.shields.io/badge/Python-3.10-yellow?style=for-the-badge&logo=python" alt="Python">
   <img src="https://img.shields.io/badge/Difficulty-Easy%20Peasy-green?style=for-the-badge" alt="Difficulty">
